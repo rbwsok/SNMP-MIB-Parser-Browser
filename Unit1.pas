@@ -1,4 +1,4 @@
-unit Unit1;
+п»їunit Unit1;
 
 interface
 
@@ -74,7 +74,7 @@ var
 begin
   AllocConsole;
 
-  // список адресов
+  // СЃРїРёСЃРѕРє Р°РґСЂРµСЃРѕРІ
   WriteLn('+++++++++++++++++++++++++++++++');
   WriteLn('Adresses:');
   addresses := TList<TObjectList<TRAddressObject>>.Create;
@@ -186,7 +186,7 @@ procedure TForm1.ViewTree;
     ForEach(MIBStringTree,
       function(Tree: TVirtualStringTree; node: PVirtualNode): Boolean
 
-        // проверка вхождения stl1 в stl2
+        // РїСЂРѕРІРµСЂРєР° РІС…РѕР¶РґРµРЅРёСЏ stl1 РІ stl2
         function Contains(stl1, stl2: TStringList): Boolean;
         var
           i: Integer;
