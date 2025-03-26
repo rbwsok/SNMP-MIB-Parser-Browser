@@ -1,4 +1,4 @@
-unit SNMPParserMIB;
+п»їunit SNMPParserMIB;
 
 interface
 
@@ -13,8 +13,8 @@ type
   end;
 
 const
-  // предопределенные адреса
-  // сюда можно добавлять адреса без поиска их в доп. файлах
+  // РїСЂРµРґРѕРїСЂРµРґРµР»РµРЅРЅС‹Рµ Р°РґСЂРµСЃР°
+  // СЃСЋРґР° РјРѕР¶РЅРѕ РґРѕР±Р°РІР»СЏС‚СЊ Р°РґСЂРµСЃР° Р±РµР· РїРѕРёСЃРєР° РёС… РІ РґРѕРї. С„Р°Р№Р»Р°С…
   KnownOIDsArray: array [0..3] of TRKnownOID = (
     ( Name: 'ccitt'; OID: '0' ),
     ( Name: 'iso'; OID: '1' ),
@@ -23,49 +23,49 @@ const
   );
 
 type
-  // типы лексем
+  // С‚РёРїС‹ Р»РµРєСЃРµРј
   TRLexemType = (
-    ltUnknown, // не опознано
-    ltText,     // текст (описания и т.д. - то, что заключено в кавычках)
-    ltSemicolon, // точка с запятой
-    ltLeftBracer, // левая фигурная скобка
-    ltRightBracer // правая фигурная скобка
+    ltUnknown, // РЅРµ РѕРїРѕР·РЅР°РЅРѕ
+    ltText,     // С‚РµРєСЃС‚ (РѕРїРёСЃР°РЅРёСЏ Рё С‚.Рґ. - С‚Рѕ, С‡С‚Рѕ Р·Р°РєР»СЋС‡РµРЅРѕ РІ РєР°РІС‹С‡РєР°С…)
+    ltSemicolon, // С‚РѕС‡РєР° СЃ Р·Р°РїСЏС‚РѕР№
+    ltLeftBracer, // Р»РµРІР°СЏ С„РёРіСѓСЂРЅР°СЏ СЃРєРѕР±РєР°
+    ltRightBracer // РїСЂР°РІР°СЏ С„РёРіСѓСЂРЅР°СЏ СЃРєРѕР±РєР°
   );
 
-  // разбиратель файла на слова + удаление коментариев и сборка текста
+  // СЂР°Р·Р±РёСЂР°С‚РµР»СЊ С„Р°Р№Р»Р° РЅР° СЃР»РѕРІР° + СѓРґР°Р»РµРЅРёРµ РєРѕРјРµРЅС‚Р°СЂРёРµРІ Рё СЃР±РѕСЂРєР° С‚РµРєСЃС‚Р°
   TRMIBTokenizer = class
   protected
     FPosition: NativeInt;
     FData: RawByteString;
 
-    function isSpace(ch: AnsiChar): Boolean; // проверка на пробелы и т.д.
-    function isEndLine(ch: AnsiChar): Boolean; // проверка на конец строки
-    function isQuoted(ch: AnsiChar): Boolean; // проверка на кавычку
-    function isComment: Boolean; // проверка на коментарий
-    function isSemicolon(ch: AnsiChar): Boolean; // проверка на точку с запятой
-    function isLeftBracer(ch: AnsiChar): Boolean; // проверка на левую фигурную скобку
-    function isRightBracer(ch: AnsiChar): Boolean; // проверка на правую фигурную скобку
+    function isSpace(ch: AnsiChar): Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° РїСЂРѕР±РµР»С‹ Рё С‚.Рґ.
+    function isEndLine(ch: AnsiChar): Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° РєРѕРЅРµС† СЃС‚СЂРѕРєРё
+    function isQuoted(ch: AnsiChar): Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° РєР°РІС‹С‡РєСѓ
+    function isComment: Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° РєРѕРјРµРЅС‚Р°СЂРёР№
+    function isSemicolon(ch: AnsiChar): Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° С‚РѕС‡РєСѓ СЃ Р·Р°РїСЏС‚РѕР№
+    function isLeftBracer(ch: AnsiChar): Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° Р»РµРІСѓСЋ С„РёРіСѓСЂРЅСѓСЋ СЃРєРѕР±РєСѓ
+    function isRightBracer(ch: AnsiChar): Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° РїСЂР°РІСѓСЋ С„РёРіСѓСЂРЅСѓСЋ СЃРєРѕР±РєСѓ
     procedure skipSpaces;
     procedure skipComment;
     procedure skipEndLine;
-    function getQuotedText: RawByteString; // взять текст в кавычках
+    function getQuotedText: RawByteString; // РІР·СЏС‚СЊ С‚РµРєСЃС‚ РІ РєР°РІС‹С‡РєР°С…
 
-    function findChar(ch: AnsiChar): NativeInt; // поиск символа
-    function findCharInLine(ch: AnsiChar): NativeInt; // поиск символа в одной строке
-    function findEndLineBack: NativeInt; // поиск начала строки (в обратном направлении)
-    function findEndLine: NativeInt; // поиск конца строки (в прямом направлении)
+    function findChar(ch: AnsiChar): NativeInt; // РїРѕРёСЃРє СЃРёРјРІРѕР»Р°
+    function findCharInLine(ch: AnsiChar): NativeInt; // РїРѕРёСЃРє СЃРёРјРІРѕР»Р° РІ РѕРґРЅРѕР№ СЃС‚СЂРѕРєРµ
+    function findEndLineBack: NativeInt; // РїРѕРёСЃРє РЅР°С‡Р°Р»Р° СЃС‚СЂРѕРєРё (РІ РѕР±СЂР°С‚РЅРѕРј РЅР°РїСЂР°РІР»РµРЅРёРё)
+    function findEndLine: NativeInt; // РїРѕРёСЃРє РєРѕРЅС†Р° СЃС‚СЂРѕРєРё (РІ РїСЂСЏРјРѕРј РЅР°РїСЂР°РІР»РµРЅРёРё)
 
     function getWord(var str: RawByteString; var lexemtype: TRLexemType): Boolean;
   public
     function Process(const str: RawByteString; list: TList<TPair<RawByteString, TRLexemType>>): Boolean;
   end;
 
-  // базовый объект с адресом (напрямую создаваться не должен)
+  // Р±Р°Р·РѕРІС‹Р№ РѕР±СЉРµРєС‚ СЃ Р°РґСЂРµСЃРѕРј (РЅР°РїСЂСЏРјСѓСЋ СЃРѕР·РґР°РІР°С‚СЊСЃСЏ РЅРµ РґРѕР»Р¶РµРЅ)
   TRAddressObject = class
   public
-    // адрес. каждая часть - отдельная строка.
-    // адрес 1.3.6.1.4.1 будет состоять тз 6 строк в которых будут числа
-    // такжн может содержать сырой адрес (ссылку на другой адрес) - например mikrotik.1 - 2 строки
+    // Р°РґСЂРµСЃ. РєР°Р¶РґР°СЏ С‡Р°СЃС‚СЊ - РѕС‚РґРµР»СЊРЅР°СЏ СЃС‚СЂРѕРєР°.
+    // Р°РґСЂРµСЃ 1.3.6.1.4.1 Р±СѓРґРµС‚ СЃРѕСЃС‚РѕСЏС‚СЊ С‚Р· 6 СЃС‚СЂРѕРє РІ РєРѕС‚РѕСЂС‹С… Р±СѓРґСѓС‚ С‡РёСЃР»Р°
+    // С‚Р°РєР¶РЅ РјРѕР¶РµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ СЃС‹СЂРѕР№ Р°РґСЂРµСЃ (СЃСЃС‹Р»РєСѓ РЅР° РґСЂСѓРіРѕР№ Р°РґСЂРµСЃ) - РЅР°РїСЂРёРјРµСЂ mikrotik.1 - 2 СЃС‚СЂРѕРєРё
 
     name: RawByteString;
     address: TStringList;
@@ -100,12 +100,12 @@ type
   public
     // OBJECT-TYPE
 
-    syntax: RawByteString; // базовый тип (без уточнения ограничений типа)
+    syntax: RawByteString; // Р±Р°Р·РѕРІС‹Р№ С‚РёРї (Р±РµР· СѓС‚РѕС‡РЅРµРЅРёСЏ РѕРіСЂР°РЅРёС‡РµРЅРёР№ С‚РёРїР°)
 
-    // эти параметры парсятся, но не используются
-    maxaccess: RawByteString; // хинт
-    status: RawByteString; // статус
-    description: RawByteString; // описание
+    // СЌС‚Рё РїР°СЂР°РјРµС‚СЂС‹ РїР°СЂСЃСЏС‚СЃСЏ, РЅРѕ РЅРµ РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ
+    maxaccess: RawByteString; // С…РёРЅС‚
+    status: RawByteString; // СЃС‚Р°С‚СѓСЃ
+    description: RawByteString; // РѕРїРёСЃР°РЅРёРµ
     treference: RawByteString;
     index: TStringList;
 
@@ -119,9 +119,9 @@ type
 
     objects: TStringList;
 
-    // эти параметры парсятся, но не используются
-    status: RawByteString; // статус
-    description: RawByteString; // описание
+    // СЌС‚Рё РїР°СЂР°РјРµС‚СЂС‹ РїР°СЂСЃСЏС‚СЃСЏ, РЅРѕ РЅРµ РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ
+    status: RawByteString; // СЃС‚Р°С‚СѓСЃ
+    description: RawByteString; // РѕРїРёСЃР°РЅРёРµ
 
     constructor Create;
     destructor Destroy; override;
@@ -133,9 +133,9 @@ type
 
     notifications: TStringList;
 
-    // эти параметры парсятся, но не используются
-    status: RawByteString; // статус
-    description: RawByteString; // описание
+    // СЌС‚Рё РїР°СЂР°РјРµС‚СЂС‹ РїР°СЂСЃСЏС‚СЃСЏ, РЅРѕ РЅРµ РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ
+    status: RawByteString; // СЃС‚Р°С‚СѓСЃ
+    description: RawByteString; // РѕРїРёСЃР°РЅРёРµ
 
     constructor Create;
     destructor Destroy; override;
@@ -147,9 +147,9 @@ type
 
     objects: TStringList;
 
-    // эти параметры парсятся, но не используются
-    status: RawByteString; // статус
-    description: RawByteString; // описание
+    // СЌС‚Рё РїР°СЂР°РјРµС‚СЂС‹ РїР°СЂСЃСЏС‚СЃСЏ, РЅРѕ РЅРµ РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ
+    status: RawByteString; // СЃС‚Р°С‚СѓСЃ
+    description: RawByteString; // РѕРїРёСЃР°РЅРёРµ
     treference: RawByteString;
 
     constructor Create;
@@ -160,17 +160,17 @@ type
   public
     // TEXTUAL-CONVENTION
 
-    // типы основаны на базовых типах (по идее) из SNMPv2-SMI и т.д.
+    // С‚РёРїС‹ РѕСЃРЅРѕРІР°РЅС‹ РЅР° Р±Р°Р·РѕРІС‹С… С‚РёРїР°С… (РїРѕ РёРґРµРµ) РёР· SNMPv2-SMI Рё С‚.Рґ.
 
-    name: RawByteString; // имя нового типа
-    syntax: RawByteString; // базовый тип (без уточнения ограничений типа)
+    name: RawByteString; // РёРјСЏ РЅРѕРІРѕРіРѕ С‚РёРїР°
+    syntax: RawByteString; // Р±Р°Р·РѕРІС‹Р№ С‚РёРї (Р±РµР· СѓС‚РѕС‡РЅРµРЅРёСЏ РѕРіСЂР°РЅРёС‡РµРЅРёР№ С‚РёРїР°)
 
-    enumvalues: TStringList; // для перечисляемых типов - возможные значения
+    enumvalues: TStringList; // РґР»СЏ РїРµСЂРµС‡РёСЃР»СЏРµРјС‹С… С‚РёРїРѕРІ - РІРѕР·РјРѕР¶РЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ
 
-    // эти параметры парсятся, но не используются
-    displayhint: RawByteString; // хинт
-    status: RawByteString; // статус
-    description: RawByteString; // описание
+    // СЌС‚Рё РїР°СЂР°РјРµС‚СЂС‹ РїР°СЂСЃСЏС‚СЃСЏ, РЅРѕ РЅРµ РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ
+    displayhint: RawByteString; // С…РёРЅС‚
+    status: RawByteString; // СЃС‚Р°С‚СѓСЃ
+    description: RawByteString; // РѕРїРёСЃР°РЅРёРµ
     treference: RawByteString;
 
     constructor Create;
@@ -198,44 +198,44 @@ type
 
     procedure Clear;
 
-    function findBeginMIB: NativeInt; // поиск начала модуля mib
-    function isEndMIB: Boolean; // проверка на конец модуля
-    function isModuleIdentity: Boolean; // проверка на описание модуля
-    function isImports: Boolean; // проверка на блок импорта
-    function isObjectIdentifier: Boolean; // проверка на блок адреса
-    function isTextualConvention: Boolean; // проверка на блок типа данных
-    function isObjectType: Boolean; // проверка на блок узла
-    function isSequence: Boolean; // проверка на последовательность
-    function isObjectGroup: Boolean; // проверка на группу объектов
-    function isNotificationGroup: Boolean; // проверка на группу уведомлений
-    function isNotificationType: Boolean; // проверка на уведомление
-    function isMacro: Boolean; // проверка на макрос
+    function findBeginMIB: NativeInt; // РїРѕРёСЃРє РЅР°С‡Р°Р»Р° РјРѕРґСѓР»СЏ mib
+    function isEndMIB: Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° РєРѕРЅРµС† РјРѕРґСѓР»СЏ
+    function isModuleIdentity: Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° РѕРїРёСЃР°РЅРёРµ РјРѕРґСѓР»СЏ
+    function isImports: Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° Р±Р»РѕРє РёРјРїРѕСЂС‚Р°
+    function isObjectIdentifier: Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° Р±Р»РѕРє Р°РґСЂРµСЃР°
+    function isTextualConvention: Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° Р±Р»РѕРє С‚РёРїР° РґР°РЅРЅС‹С…
+    function isObjectType: Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° Р±Р»РѕРє СѓР·Р»Р°
+    function isSequence: Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ
+    function isObjectGroup: Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° РіСЂСѓРїРїСѓ РѕР±СЉРµРєС‚РѕРІ
+    function isNotificationGroup: Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° РіСЂСѓРїРїСѓ СѓРІРµРґРѕРјР»РµРЅРёР№
+    function isNotificationType: Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° СѓРІРµРґРѕРјР»РµРЅРёРµ
+    function isMacro: Boolean; // РїСЂРѕРІРµСЂРєР° РЅР° РјР°РєСЂРѕСЃ
     function isChoice: Boolean;
     function isModuleCompliance: Boolean;
     function isAgentCapabilites: Boolean;
     function isObjectIdentity: Boolean;
 
-    function getImports: Boolean; // разбор блока импорта
-    function getModuleIdentity: Boolean; // разбор блока идетнификации
-    function getObjectIdentifier: Boolean; // разбор блока адреса
-    function getTextualConvention: Boolean; // разбор блока типа данных
-    function getObjectType: Boolean; // разбор блока узла
-    function getSequence: Boolean; // разбор блока последовательности
-    function getObjectGroup: Boolean; // разбор группы объектов
-    function getNotificationGroup: Boolean; // разбор группы уведомлений
-    function getNotificationType: Boolean; // разбор уведомления
-    function getMacro: Boolean; // разбор макроса
+    function getImports: Boolean; // СЂР°Р·Р±РѕСЂ Р±Р»РѕРєР° РёРјРїРѕСЂС‚Р°
+    function getModuleIdentity: Boolean; // СЂР°Р·Р±РѕСЂ Р±Р»РѕРєР° РёРґРµС‚РЅРёС„РёРєР°С†РёРё
+    function getObjectIdentifier: Boolean; // СЂР°Р·Р±РѕСЂ Р±Р»РѕРєР° Р°РґСЂРµСЃР°
+    function getTextualConvention: Boolean; // СЂР°Р·Р±РѕСЂ Р±Р»РѕРєР° С‚РёРїР° РґР°РЅРЅС‹С…
+    function getObjectType: Boolean; // СЂР°Р·Р±РѕСЂ Р±Р»РѕРєР° СѓР·Р»Р°
+    function getSequence: Boolean; // СЂР°Р·Р±РѕСЂ Р±Р»РѕРєР° РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё
+    function getObjectGroup: Boolean; // СЂР°Р·Р±РѕСЂ РіСЂСѓРїРїС‹ РѕР±СЉРµРєС‚РѕРІ
+    function getNotificationGroup: Boolean; // СЂР°Р·Р±РѕСЂ РіСЂСѓРїРїС‹ СѓРІРµРґРѕРјР»РµРЅРёР№
+    function getNotificationType: Boolean; // СЂР°Р·Р±РѕСЂ СѓРІРµРґРѕРјР»РµРЅРёСЏ
+    function getMacro: Boolean; // СЂР°Р·Р±РѕСЂ РјР°РєСЂРѕСЃР°
     function getChoice: Boolean;
     function getModuleCompliance: Boolean;
     function getAgentCapabilites: Boolean;
     function getObjectIdentity: Boolean;
 
-    function getEnumsWithNumbers(leftBracerPosition, rightBracerPosition: NativeInt; var values: TStringList): Boolean; // выгребание перечисляемого типа
-    function getEnumsWithoutNumbers(leftBracerPosition, rightBracerPosition: NativeInt; var values: TStringList): Boolean; // выгребание перечисляемого типа
-    function getEnumsStringPairs(leftBracerPosition, rightBracerPosition: NativeInt; var values: TList<TPair<RawByteString, RawByteString>>): Boolean; // выгребание перечисляемого типа
-    function getAddress(leftBracerPosition, rightBracerPosition: NativeInt; var values: TStringList): Boolean; // выгребание и разбор адреса
+    function getEnumsWithNumbers(leftBracerPosition, rightBracerPosition: NativeInt; var values: TStringList): Boolean; // РІС‹РіСЂРµР±Р°РЅРёРµ РїРµСЂРµС‡РёСЃР»СЏРµРјРѕРіРѕ С‚РёРїР°
+    function getEnumsWithoutNumbers(leftBracerPosition, rightBracerPosition: NativeInt; var values: TStringList): Boolean; // РІС‹РіСЂРµР±Р°РЅРёРµ РїРµСЂРµС‡РёСЃР»СЏРµРјРѕРіРѕ С‚РёРїР°
+    function getEnumsStringPairs(leftBracerPosition, rightBracerPosition: NativeInt; var values: TList<TPair<RawByteString, RawByteString>>): Boolean; // РІС‹РіСЂРµР±Р°РЅРёРµ РїРµСЂРµС‡РёСЃР»СЏРµРјРѕРіРѕ С‚РёРїР°
+    function getAddress(leftBracerPosition, rightBracerPosition: NativeInt; var values: TStringList): Boolean; // РІС‹РіСЂРµР±Р°РЅРёРµ Рё СЂР°Р·Р±РѕСЂ Р°РґСЂРµСЃР°
 
-    // поиск текстового значения.
+    // РїРѕРёСЃРє С‚РµРєСЃС‚РѕРІРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ.
     function findItem(const value: RawByteString; const breakvalue: RawByteString): NativeInt;
   public
     function Process(var MIBFile: TRMIBFile): Boolean;
@@ -244,7 +244,7 @@ type
     destructor Destroy; override;
   end;
 
-  // парсер одного файла
+  // РїР°СЂСЃРµСЂ РѕРґРЅРѕРіРѕ С„Р°Р№Р»Р°
   TRMIBFile = class
   private
     FTokenizer: TRMIBTokenizer;
@@ -252,9 +252,9 @@ type
     FList: TList<TPair<RawByteString, TRLexemType>>;
     FKnownOIDsDict: TDictionary<String, String>;
 
-    FIsMainFile: Boolean; // true - запрашиваемый файл, false - дополнительный файл (загруженный из секции IMPORTS)
+    FIsMainFile: Boolean; // true - Р·Р°РїСЂР°С€РёРІР°РµРјС‹Р№ С„Р°Р№Р», false - РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Р№ С„Р°Р№Р» (Р·Р°РіСЂСѓР¶РµРЅРЅС‹Р№ РёР· СЃРµРєС†РёРё IMPORTS)
 
-    FName: String; // имя файла
+    FName: String; // РёРјСЏ С„Р°Р№Р»Р°
 
     procedure Clear;
 
@@ -270,18 +270,18 @@ type
 
     procedure SortAddressObjects;
   public
-    // результат разбора
-    Name: RawByteString; // имя модуля mib
-    Imports: TList<TPair<RawByteString, RawByteString>>; // список импортируемых модулей (1 - тип, 2 - имя модуля). имя модуля может быть пустым
-    AddressObjects: TObjectList<TRAddressObject>; // список объектов с адресами (тут ВСЕ объекты с адресами)
-    TextualConventions: TObjectList<TRTextualConvention>; // список типов
-    Sequences: TObjectList<TRSequence>; // список последовательностей
+    // СЂРµР·СѓР»СЊС‚Р°С‚ СЂР°Р·Р±РѕСЂР°
+    Name: RawByteString; // РёРјСЏ РјРѕРґСѓР»СЏ mib
+    Imports: TList<TPair<RawByteString, RawByteString>>; // СЃРїРёСЃРѕРє РёРјРїРѕСЂС‚РёСЂСѓРµРјС‹С… РјРѕРґСѓР»РµР№ (1 - С‚РёРї, 2 - РёРјСЏ РјРѕРґСѓР»СЏ). РёРјСЏ РјРѕРґСѓР»СЏ РјРѕР¶РµС‚ Р±С‹С‚СЊ РїСѓСЃС‚С‹Рј
+    AddressObjects: TObjectList<TRAddressObject>; // СЃРїРёСЃРѕРє РѕР±СЉРµРєС‚РѕРІ СЃ Р°РґСЂРµСЃР°РјРё (С‚СѓС‚ Р’РЎР• РѕР±СЉРµРєС‚С‹ СЃ Р°РґСЂРµСЃР°РјРё)
+    TextualConventions: TObjectList<TRTextualConvention>; // СЃРїРёСЃРѕРє С‚РёРїРѕРІ
+    Sequences: TObjectList<TRSequence>; // СЃРїРёСЃРѕРє РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚РµР№
 
-    // разбор файла
+    // СЂР°Р·Р±РѕСЂ С„Р°Р№Р»Р°
     function Parse(const body: RawByteString): Boolean;
-    // запрос списка дополнительных файлов
+    // Р·Р°РїСЂРѕСЃ СЃРїРёСЃРєР° РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹С… С„Р°Р№Р»РѕРІ
     procedure GetAdditionalFiles(stl: TStringList);
-    // анализ файла (построение адресов) с учетом дополнительных файлов
+    // Р°РЅР°Р»РёР· С„Р°Р№Р»Р° (РїРѕСЃС‚СЂРѕРµРЅРёРµ Р°РґСЂРµСЃРѕРІ) СЃ СѓС‡РµС‚РѕРј РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹С… С„Р°Р№Р»РѕРІ
     function Analyze(allfiles: TObjectList<TRMIBFile>): Boolean;
 
     constructor Create;
@@ -290,33 +290,33 @@ type
 
   TRMIBParser = class
   private
-    FFileFolders: TStringList; // папки для поиска дополнительных файлов
+    FFileFolders: TStringList; // РїР°РїРєРё РґР»СЏ РїРѕРёСЃРєР° РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹С… С„Р°Р№Р»РѕРІ
 
     FMIBFiles: TObjectList<TRMIBFile>;
 
-    FUnknownFiles: TStringList; // список ненайденных файлов. без них формирование адресов невозможно
+    FUnknownFiles: TStringList; // СЃРїРёСЃРѕРє РЅРµРЅР°Р№РґРµРЅРЅС‹С… С„Р°Р№Р»РѕРІ. Р±РµР· РЅРёС… С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ Р°РґСЂРµСЃРѕРІ РЅРµРІРѕР·РјРѕР¶РЅРѕ
 
     function ParseFile(const filename: String; mibfile: TRMIBFile): Boolean;
   public
     constructor Create;
     destructor Destroy; override;
 
-    // добавление путей для поиска дополнительных файлов
+    // РґРѕР±Р°РІР»РµРЅРёРµ РїСѓС‚РµР№ РґР»СЏ РїРѕРёСЃРєР° РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹С… С„Р°Р№Р»РѕРІ
     procedure AddSearchFolder(const folder: String);
 
-    // загрузка файла
+    // Р·Р°РіСЂСѓР·РєР° С„Р°Р№Р»Р°
     procedure Parse(const filename: String; ismainfile: Boolean = true);
 
-    // очистка всех файлов (перед новым разбором)
+    // РѕС‡РёСЃС‚РєР° РІСЃРµС… С„Р°Р№Р»РѕРІ (РїРµСЂРµРґ РЅРѕРІС‹Рј СЂР°Р·Р±РѕСЂРѕРј)
     procedure Clear;
 
-    // получает все ненайденный файлы
+    // РїРѕР»СѓС‡Р°РµС‚ РІСЃРµ РЅРµРЅР°Р№РґРµРЅРЅС‹Р№ С„Р°Р№Р»С‹
     procedure GetUnknownFiles(var stl: TStringList);
 
-    // получение списка списков адресов
+    // РїРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° СЃРїРёСЃРєРѕРІ Р°РґСЂРµСЃРѕРІ
     function GetAddressObjects(list: TList<TObjectList<TRAddressObject>>): Boolean;
 
-    // удаление распарсенного файла по индексу
+    // СѓРґР°Р»РµРЅРёРµ СЂР°СЃРїР°СЂСЃРµРЅРЅРѕРіРѕ С„Р°Р№Р»Р° РїРѕ РёРЅРґРµРєСЃСѓ
     function Remove(index: NativeInt): Boolean;
   end;
 
@@ -335,7 +335,7 @@ begin
   inherited;
 end;
 
-// текстовый вид адреса
+// С‚РµРєСЃС‚РѕРІС‹Р№ РІРёРґ Р°РґСЂРµСЃР°
 function TRAddressObject.ToString: String;
 var
   i: NativeInt;
@@ -403,7 +403,7 @@ end;
 
 constructor TRMIBParser.Create;
 begin
-  FFileFolders := TStringList.Create; // папки для поиска дополнительных файлов
+  FFileFolders := TStringList.Create; // РїР°РїРєРё РґР»СЏ РїРѕРёСЃРєР° РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹С… С„Р°Р№Р»РѕРІ
   FFileFolders.Duplicates := dupIgnore;
 
   FMIBFiles := TObjectList<TRMIBFile>.Create;
@@ -435,7 +435,7 @@ var
   mibfilename: TRMibFile;
   name: String;
 begin
-  // если файл уже распарсен - то пропускаем его
+  // РµСЃР»Рё С„Р°Р№Р» СѓР¶Рµ СЂР°СЃРїР°СЂСЃРµРЅ - С‚Рѕ РїСЂРѕРїСѓСЃРєР°РµРј РµРіРѕ
   findfile := false;
   for mibfilename in FMIBFiles do
   begin
@@ -453,7 +453,7 @@ begin
   mibfile.FIsMainFile := ismainfile;
   mibfile.FName := filename;
 
-  // добавляем папку открытия файла в папки для поиска дополнительных файлов
+  // РґРѕР±Р°РІР»СЏРµРј РїР°РїРєСѓ РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р° РІ РїР°РїРєРё РґР»СЏ РїРѕРёСЃРєР° РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹С… С„Р°Р№Р»РѕРІ
   if mibfile.FIsMainFile then
   begin
     AddSearchFolder(ExtractFilePath(filename));
@@ -501,7 +501,7 @@ begin
     end
     else
     begin
-      // запрос доп. файлов
+      // Р·Р°РїСЂРѕСЃ РґРѕРї. С„Р°Р№Р»РѕРІ
       for name in self.FFileFolders do
       begin
         if FileExists(name + filename + '.mib') then
@@ -524,7 +524,7 @@ begin
       end;
     end;
 
-    // файл не найден
+    // С„Р°Р№Р» РЅРµ РЅР°Р№РґРµРЅ
     if ms.Size = 0 then
     begin
       FUnknownFiles.Add(filename);
@@ -556,7 +556,7 @@ procedure TRMIBFile.ReplaceItemFromStringList(const dst, src: TStringList; index
 var
   i: NativeInt;
 begin
-  // вставка одного TStringList в другой TStringList и удаление старой записи
+  // РІСЃС‚Р°РІРєР° РѕРґРЅРѕРіРѕ TStringList РІ РґСЂСѓРіРѕР№ TStringList Рё СѓРґР°Р»РµРЅРёРµ СЃС‚Р°СЂРѕР№ Р·Р°РїРёСЃРё
   dst.Delete(index);
   i := 0;
   while i < src.Count do
@@ -599,7 +599,7 @@ procedure TRMIBFile.ReplaceItemFromString(const dst: TStringList; const src: Str
 var
   stl: TStringList;
 begin
-  // вставка одного строки, разделенной точками в другой TStringList и удаление старой записи
+  // РІСЃС‚Р°РІРєР° РѕРґРЅРѕРіРѕ СЃС‚СЂРѕРєРё, СЂР°Р·РґРµР»РµРЅРЅРѕР№ С‚РѕС‡РєР°РјРё РІ РґСЂСѓРіРѕР№ TStringList Рё СѓРґР°Р»РµРЅРёРµ СЃС‚Р°СЂРѕР№ Р·Р°РїРёСЃРё
   stl := TStringList.Create;
   try
     stl.Delimiter := '.';
@@ -614,7 +614,7 @@ end;
 
 function TRMIBFile.BuildAddresses(allfiles: TObjectList<TRMIBFile>): Boolean;
 
-  // создание одного адреса
+  // СЃРѕР·РґР°РЅРёРµ РѕРґРЅРѕРіРѕ Р°РґСЂРµСЃР°
   function BuildOneAddress(obj: TRAddressObject; allfiles: TObjectList<TRMIBFile>): Boolean;
   var
     i: NativeInt;
@@ -623,33 +623,33 @@ function TRMIBFile.BuildAddresses(allfiles: TObjectList<TRMIBFile>): Boolean;
 
     additionalfile: TRMIBFile;
   begin
-    // перебираем все части адреса
+    // РїРµСЂРµР±РёСЂР°РµРј РІСЃРµ С‡Р°СЃС‚Рё Р°РґСЂРµСЃР°
     i := 0;
     while i < obj.address.Count do
     begin
       elementaddress := obj.address[i];
       if StrToIntDef(elementaddress, -1) = -1 then
       begin
-        // тщем адрес в списке адресов
+        // С‚С‰РµРј Р°РґСЂРµСЃ РІ СЃРїРёСЃРєРµ Р°РґСЂРµСЃРѕРІ
         findaddress := FindAddressFromAddresses(RawByteString(elementaddress));
         if findaddress <> nil then
-        begin // ищем в пределах файла
-          BuildOneAddress(findaddress, allfiles); // создаем вышестоящий адрес
+        begin // РёС‰РµРј РІ РїСЂРµРґРµР»Р°С… С„Р°Р№Р»Р°
+          BuildOneAddress(findaddress, allfiles); // СЃРѕР·РґР°РµРј РІС‹С€РµСЃС‚РѕСЏС‰РёР№ Р°РґСЂРµСЃ
           ReplaceItemFromStringList(obj.address, findaddress.address, i);
         end
         else
-        begin // адрес не найден
-          // ищем в предопределенных адресах
+        begin // Р°РґСЂРµСЃ РЅРµ РЅР°Р№РґРµРЅ
+          // РёС‰РµРј РІ РїСЂРµРґРѕРїСЂРµРґРµР»РµРЅРЅС‹С… Р°РґСЂРµСЃР°С…
           if FKnownOIDsDict.TryGetValue(elementaddress, value) then
           begin
             ReplaceItemFromString(obj.address, value, i);
           end
           else
           begin
-            // ищем в других файлах
+            // РёС‰РµРј РІ РґСЂСѓРіРёС… С„Р°Р№Р»Р°С…
             for additionalfile in allfiles do
             begin
-              if self.Name = additionalfile.Name then // этот же файл
+              if self.Name = additionalfile.Name then // СЌС‚РѕС‚ Р¶Рµ С„Р°Р№Р»
                 continue;
 
               findaddress := additionalfile.FindAddressFromAddresses(RawByteString(elementaddress));
@@ -671,7 +671,7 @@ function TRMIBFile.BuildAddresses(allfiles: TObjectList<TRMIBFile>): Boolean;
 var
   obj: TRAddressObject;
 begin
-  // создание адресов из распарсенного файла
+  // СЃРѕР·РґР°РЅРёРµ Р°РґСЂРµСЃРѕРІ РёР· СЂР°СЃРїР°СЂСЃРµРЅРЅРѕРіРѕ С„Р°Р№Р»Р°
 
   for obj in self.AddressObjects do
     BuildOneAddress(obj, allfiles);
@@ -681,12 +681,12 @@ end;
 
 function TRMIBFile.ChangeTypes(allfiles: TObjectList<TRMIBFile>): Boolean;
 
-  // замена адреса создание одного адреса
+  // Р·Р°РјРµРЅР° Р°РґСЂРµСЃР° СЃРѕР·РґР°РЅРёРµ РѕРґРЅРѕРіРѕ Р°РґСЂРµСЃР°
   function ChangeType(obj: TRAddressObject; allfiles: TObjectList<TRMIBFile>): Boolean;
 
     function IsBaseType(const value: RawByteString): Boolean;
     const
-      // список базовых типов (SNMPv2-SMI)
+      // СЃРїРёСЃРѕРє Р±Р°Р·РѕРІС‹С… С‚РёРїРѕРІ (SNMPv2-SMI)
       BaseTypes: array [0..10] of RawByteString = ('INTEGER', 'OCTET STRING', 'OBJECT IDENTIFIER',
         'Integer32', 'IpAddress', 'Counter32', 'Gauge32', 'Unsigned32', 'TimeTicks', 'Opaque', 'Counter64');
     var
@@ -717,7 +717,7 @@ function TRMIBFile.ChangeTypes(allfiles: TObjectList<TRMIBFile>): Boolean;
     t := FindTypeFromTextualConvention(TRObjectType(obj).syntax);
     if t = nil then
     begin
-      // ищем в других файлах
+      // РёС‰РµРј РІ РґСЂСѓРіРёС… С„Р°Р№Р»Р°С…
       for additionalfile in allfiles do
       begin
         t := additionalfile.FindTypeFromTextualConvention(TRObjectType(obj).syntax);
@@ -728,7 +728,7 @@ function TRMIBFile.ChangeTypes(allfiles: TObjectList<TRMIBFile>): Boolean;
         end;
       end;
 
-      // не нашли тип - ищем sequence
+      // РЅРµ РЅР°С€Р»Рё С‚РёРї - РёС‰РµРј sequence
       if findtype = false then
       begin
         if FindSequenceFromType(TRObjectType(obj).syntax) <> nil then
@@ -751,7 +751,7 @@ function TRMIBFile.ChangeTypes(allfiles: TObjectList<TRMIBFile>): Boolean;
 var
   obj: TRAddressObject;
 begin
-  // создание адресов из распарсенного файла
+  // СЃРѕР·РґР°РЅРёРµ Р°РґСЂРµСЃРѕРІ РёР· СЂР°СЃРїР°СЂСЃРµРЅРЅРѕРіРѕ С„Р°Р№Р»Р°
   for obj in self.AddressObjects do
   begin
     if obj is TRObjectType then
@@ -842,14 +842,14 @@ end;
 
 function TRMIBFile.Parse(const body: RawByteString): Boolean;
 begin
-  // разбор файла
+  // СЂР°Р·Р±РѕСЂ С„Р°Р№Р»Р°
 
-  // разбиваем на слова, убираем коментарии, выделяем текст (строки)
+  // СЂР°Р·Р±РёРІР°РµРј РЅР° СЃР»РѕРІР°, СѓР±РёСЂР°РµРј РєРѕРјРµРЅС‚Р°СЂРёРё, РІС‹РґРµР»СЏРµРј С‚РµРєСЃС‚ (СЃС‚СЂРѕРєРё)
   result := FTokenizer.Process(body, FList);
   if not result then
     exit;
 
-  // вытаскиваем все данные
+  // РІС‹С‚Р°СЃРєРёРІР°РµРј РІСЃРµ РґР°РЅРЅС‹Рµ
   result := FLexer.Process(self);
   if not result then
     exit;
@@ -859,22 +859,22 @@ procedure TRMIBFile.GetAdditionalFiles(stl: TStringList);
 var
   obj: TPair<RawByteString, RawByteString>;
 begin
-  // запрос списка дополнительных файлов
+  // Р·Р°РїСЂРѕСЃ СЃРїРёСЃРєР° РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹С… С„Р°Р№Р»РѕРІ
   for obj in self.Imports do
     stl.Add(String(obj.Value));
 end;
 
 function TRMIBFile.Analyze(allfiles: TObjectList<TRMIBFile>): Boolean;
 begin
-  // построение адресов с учетом дополнительных файлов
+  // РїРѕСЃС‚СЂРѕРµРЅРёРµ Р°РґСЂРµСЃРѕРІ СЃ СѓС‡РµС‚РѕРј РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹С… С„Р°Р№Р»РѕРІ
   result := BuildAddresses(allfiles);
   if result = false then
     exit;
 
-  // приведение типов к базовым
+  // РїСЂРёРІРµРґРµРЅРёРµ С‚РёРїРѕРІ Рє Р±Р°Р·РѕРІС‹Рј
   result := ChangeTypes(allfiles);
 
-  // сортировка адресов
+  // СЃРѕСЂС‚РёСЂРѕРІРєР° Р°РґСЂРµСЃРѕРІ
   SortAddressObjects;
 end;
 
@@ -884,7 +884,7 @@ procedure TRMIBTokenizer.skipComment;
 var
   c: AnsiChar;
 begin
-  // пропуск коментария (до конца строки)
+  // РїСЂРѕРїСѓСЃРє РєРѕРјРµРЅС‚Р°СЂРёСЏ (РґРѕ РєРѕРЅС†Р° СЃС‚СЂРѕРєРё)
 
   while True do
   begin
@@ -904,7 +904,7 @@ procedure TRMIBTokenizer.skipEndLine;
 var
   c: AnsiChar;
 begin
-  // пропуск перевода строки
+  // РїСЂРѕРїСѓСЃРє РїРµСЂРµРІРѕРґР° СЃС‚СЂРѕРєРё
 
   while True do
   begin
@@ -924,7 +924,7 @@ procedure TRMIBTokenizer.skipSpaces;
 var
   c: AnsiChar;
 begin
-  // пропуск пробелов
+  // РїСЂРѕРїСѓСЃРє РїСЂРѕР±РµР»РѕРІ
 
   while True do
   begin
@@ -954,9 +954,9 @@ function TRMIBTokenizer.isComment: Boolean;
 var
   ch: AnsiChar;
 begin
-  // FPosition не меняется
+  // FPosition РЅРµ РјРµРЅСЏРµС‚СЃСЏ
 
-  // комментарий два минуса (--)
+  // РєРѕРјРјРµРЅС‚Р°СЂРёР№ РґРІР° РјРёРЅСѓСЃР° (--)
   ch := FData[FPosition];
 
   result := ch in ['-'];
@@ -1085,21 +1085,21 @@ begin
   if FData[FPosition] <> '"' then
     exit('');
 
-  // выбираем текст в кавычках
+  // РІС‹Р±РёСЂР°РµРј С‚РµРєСЃС‚ РІ РєР°РІС‹С‡РєР°С…
   inc(FPosition);
 
-  // проверяем - однострочный ли текст (нужна ли обрезка слева)
+  // РїСЂРѕРІРµСЂСЏРµРј - РѕРґРЅРѕСЃС‚СЂРѕС‡РЅС‹Р№ Р»Рё С‚РµРєСЃС‚ (РЅСѓР¶РЅР° Р»Рё РѕР±СЂРµР·РєР° СЃР»РµРІР°)
   p := findCharInLine('"');
   if p > 0 then
   begin
-    // текст однострочны - берем как есть
+    // С‚РµРєСЃС‚ РѕРґРЅРѕСЃС‚СЂРѕС‡РЅС‹ - Р±РµСЂРµРј РєР°Рє РµСЃС‚СЊ
     result := copy(FData, FPosition, p - FPosition);
     FPosition := p + 1;
   end
   else
   begin
-    // текст многострочный.
-    // надо сначала каждой строки отрезать количество пробелов, равное позиции кавычки + 1 от начала строки
+    // С‚РµРєСЃС‚ РјРЅРѕРіРѕСЃС‚СЂРѕС‡РЅС‹Р№.
+    // РЅР°РґРѕ СЃРЅР°С‡Р°Р»Р° РєР°Р¶РґРѕР№ СЃС‚СЂРѕРєРё РѕС‚СЂРµР·Р°С‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРѕР±РµР»РѕРІ, СЂР°РІРЅРѕРµ РїРѕР·РёС†РёРё РєР°РІС‹С‡РєРё + 1 РѕС‚ РЅР°С‡Р°Р»Р° СЃС‚СЂРѕРєРё
 
     beginline := findEndLineBack;
     if beginline < 0 then
@@ -1114,7 +1114,7 @@ begin
       if FPosition - beginline = 2 then
         removedchars := 0
       else
-        removedchars := FPosition - beginline - 1; // количество обрезаемых символов
+        removedchars := FPosition - beginline - 1; // РєРѕР»РёС‡РµСЃС‚РІРѕ РѕР±СЂРµР·Р°РµРјС‹С… СЃРёРјРІРѕР»РѕРІ
     end;
 
     p := FPosition;
@@ -1123,13 +1123,13 @@ begin
       endline := Length(FData) - 1;
     FPosition := endline;
     skipEndLine;
-    // первая строка
+    // РїРµСЂРІР°СЏ СЃС‚СЂРѕРєР°
     result := copy(FData, p, FPosition - p);
 
     while True do
     begin
-      p := findCharInLine('"'); // ищем в строке кавычку
-      if p < 0 then // кавычки нет
+      p := findCharInLine('"'); // РёС‰РµРј РІ СЃС‚СЂРѕРєРµ РєР°РІС‹С‡РєСѓ
+      if p < 0 then // РєР°РІС‹С‡РєРё РЅРµС‚
       begin
         p := FPosition;
         endline := findEndLine;
@@ -1159,17 +1159,17 @@ var
   w: RawByteString;
   c: AnsiChar;
 begin
-  // выбираем слова, убираем комментарии, объеденят текст в кавычках
+  // РІС‹Р±РёСЂР°РµРј СЃР»РѕРІР°, СѓР±РёСЂР°РµРј РєРѕРјРјРµРЅС‚Р°СЂРёРё, РѕР±СЉРµРґРµРЅСЏС‚ С‚РµРєСЃС‚ РІ РєР°РІС‹С‡РєР°С…
 
   lexemtype := ltUnknown;
 
-  skipSpaces; // пропускаем пробелы
+  skipSpaces; // РїСЂРѕРїСѓСЃРєР°РµРј РїСЂРѕР±РµР»С‹
 
   while True do
   begin
     if FPosition > Length(FData) then
     begin
-      if w = '' then // конец данных
+      if w = '' then // РєРѕРЅРµС† РґР°РЅРЅС‹С…
         exit(false);
 
       str := w;
@@ -1179,7 +1179,7 @@ begin
     c := FData[FPosition];
 
     if isSpace(c) then
-    begin // конец слова
+    begin // РєРѕРЅРµС† СЃР»РѕРІР°
       if w <> '' then
       begin
         str := w;
@@ -1189,7 +1189,7 @@ begin
     end
     else
     begin
-      // если обнаруживаем коментарий - пропускаем до конца строки
+      // РµСЃР»Рё РѕР±РЅР°СЂСѓР¶РёРІР°РµРј РєРѕРјРµРЅС‚Р°СЂРёР№ - РїСЂРѕРїСѓСЃРєР°РµРј РґРѕ РєРѕРЅС†Р° СЃС‚СЂРѕРєРё
       if isComment then
       begin
         skipComment;
@@ -1204,7 +1204,7 @@ begin
       end
       else
       begin
-        if isQuoted(c) then // кавычка
+        if isQuoted(c) then // РєР°РІС‹С‡РєР°
         begin
           if w = '' then
             w := getQuotedText;
@@ -1213,7 +1213,7 @@ begin
           break;
         end
         else
-        if isSemicolon(c) then // точка с запятой
+        if isSemicolon(c) then // С‚РѕС‡РєР° СЃ Р·Р°РїСЏС‚РѕР№
         begin
           if w <> '' then
           begin
@@ -1229,7 +1229,7 @@ begin
           end;
         end
         else
-        if isLeftBracer(c) then // левая фигурная скобка
+        if isLeftBracer(c) then // Р»РµРІР°СЏ С„РёРіСѓСЂРЅР°СЏ СЃРєРѕР±РєР°
         begin
           if w <> '' then
           begin
@@ -1245,7 +1245,7 @@ begin
           end;
         end
         else
-        if isRightBracer(c) then // правая фигурная скобка
+        if isRightBracer(c) then // РїСЂР°РІР°СЏ С„РёРіСѓСЂРЅР°СЏ СЃРєРѕР±РєР°
         begin
           if w <> '' then
           begin
@@ -1314,7 +1314,7 @@ function TRMIBLexer.findBeginMIB: NativeInt;
 var
   i: NativeInt;
 begin
-  // поиск начала модуля
+  // РїРѕРёСЃРє РЅР°С‡Р°Р»Р° РјРѕРґСѓР»СЏ
   if FPosition >= FList.Count - 2 then
     exit(-1);
 
@@ -1361,15 +1361,15 @@ var
 begin
 //result := false;
 
-  // запись адреса
+  // Р·Р°РїРёСЃСЊ Р°РґСЂРµСЃР°
   i := leftBracerPosition + 1;
   while i < rightBracerPosition do
   begin
-    // из-за возможности записи  iso(1) org(3) ieee(111) делаем дополнительную обработку
+    // РёР·-Р·Р° РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё Р·Р°РїРёСЃРё  iso(1) org(3) ieee(111) РґРµР»Р°РµРј РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅСѓСЋ РѕР±СЂР°Р±РѕС‚РєСѓ
     value := StrToIntDef(String(FList[i].Key), -1);
-    if value >= 0 then // обычное число
+    if value >= 0 then // РѕР±С‹С‡РЅРѕРµ С‡РёСЃР»Рѕ
     begin
-      if prevname <> '' then // сохраняем предыдущее значение
+      if prevname <> '' then // СЃРѕС…СЂР°РЅСЏРµРј РїСЂРµРґС‹РґСѓС‰РµРµ Р·РЅР°С‡РµРЅРёРµ
       begin
         values.Add(String(prevname));
         prevname := '';
@@ -1378,7 +1378,7 @@ begin
       values.Add(IntToStr(value))
     end
     else
-    if (Length(FList[i].Key) > 0) and // число в скобках
+    if (Length(FList[i].Key) > 0) and // С‡РёСЃР»Рѕ РІ СЃРєРѕР±РєР°С…
        (FList[i].Key[1] = '(') and
        (FList[i].Key[Length(FList[i].Key)] = ')') then
     begin
@@ -1391,12 +1391,12 @@ begin
     begin
       p1 := pos('(', String(FList[i].Key));
       p2 := pos(')', String(FList[i].Key));
-      if (p1 > 0) and (p2 > 0) then // текст и за ним число в скобках
+      if (p1 > 0) and (p2 > 0) then // С‚РµРєСЃС‚ Рё Р·Р° РЅРёРј С‡РёСЃР»Рѕ РІ СЃРєРѕР±РєР°С…
       begin
         str := copy(FList[i].Key, p1 + 1, p2 - p1 - 1);
         value := StrToIntDef(String(str), -1);
 
-        if prevname <> '' then // сохраняем предыдущее значение
+        if prevname <> '' then // СЃРѕС…СЂР°РЅСЏРµРј РїСЂРµРґС‹РґСѓС‰РµРµ Р·РЅР°С‡РµРЅРёРµ
         begin
           values.Add(String(prevname));
           prevname := '';
@@ -1405,8 +1405,8 @@ begin
         values.Add(IntToStr(value))
       end
       else
-      begin // просто текст
-        if prevname = '' then // сохраняем предыдущее значение
+      begin // РїСЂРѕСЃС‚Рѕ С‚РµРєСЃС‚
+        if prevname = '' then // СЃРѕС…СЂР°РЅСЏРµРј РїСЂРµРґС‹РґСѓС‰РµРµ Р·РЅР°С‡РµРЅРёРµ
           prevname := FList[i].Key
         else
         begin
@@ -1436,17 +1436,17 @@ begin
 
   name := FList[FPosition - 1].Key;
   p := findItem('::=', '');
-  if p = -1 then // некорректная структура
+  if p = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit(false);
   FPosition := p + 1;
 
   leftBracer := findItem('{', '}');
-  if leftBracer = -1 then // некорректная структура
+  if leftBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit(false);
   FPosition := leftBracer + 1;
 
   rightBracer := findItem('}', '');
-  if rightBracer = -1 then // некорректная структура
+  if rightBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit(false);
   FPosition := rightBracer + 1;
 
@@ -1461,7 +1461,7 @@ function TRMIBLexer.getChoice: Boolean;
 var
   p: NativeInt;
 begin
-  // choice пропускаем нах
+  // choice РїСЂРѕРїСѓСЃРєР°РµРј РЅР°С…
   result := false;
 
   if (FPosition < 0) or (FPosition >= FList.Count) then
@@ -1472,7 +1472,7 @@ begin
 
 //  name := list[FPosition - 1].Key;
   p := findItem('}', '');
-  if p = -1 then // некорректная структура
+  if p = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit;
   FPosition := p + 1;
 
@@ -1485,8 +1485,8 @@ var
   i: NativeInt;
   str1, str2: RawByteString;
 begin
-  // вытаскивание перечислений
-  // leftBracerPosition, rightBracerPosition - должны указывать на обрамление { }
+  // РІС‹С‚Р°СЃРєРёРІР°РЅРёРµ РїРµСЂРµС‡РёСЃР»РµРЅРёР№
+  // leftBracerPosition, rightBracerPosition - РґРѕР»Р¶РЅС‹ СѓРєР°Р·С‹РІР°С‚СЊ РЅР° РѕР±СЂР°РјР»РµРЅРёРµ { }
 
   result := false;
 
@@ -1520,8 +1520,8 @@ var
   name: String;
   str: RawByteString;
 begin
-  // вытаскивание перечислений
-  // leftBracerPosition, rightBracerPosition - должны указывать на обрамление { }
+  // РІС‹С‚Р°СЃРєРёРІР°РЅРёРµ РїРµСЂРµС‡РёСЃР»РµРЅРёР№
+  // leftBracerPosition, rightBracerPosition - РґРѕР»Р¶РЅС‹ СѓРєР°Р·С‹РІР°С‚СЊ РЅР° РѕР±СЂР°РјР»РµРЅРёРµ { }
 
   if (leftBracerPosition < 0) or
      (rightBracerPosition < 0) or
@@ -1529,13 +1529,13 @@ begin
      (rightBracerPosition >= FList.Count) then
     exit(false);
 
-  // запись адреса
+  // Р·Р°РїРёСЃСЊ Р°РґСЂРµСЃР°
   i := leftBracerPosition + 1;
   while i < rightBracerPosition do
   begin
-    // из-за возможности записи  name(1) или name (1) делаем дополнительную обработку
+    // РёР·-Р·Р° РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё Р·Р°РїРёСЃРё  name(1) РёР»Рё name (1) РґРµР»Р°РµРј РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅСѓСЋ РѕР±СЂР°Р±РѕС‚РєСѓ
     value := StrToIntDef(String(FList[i].Key), -1);
-    if value >= 0 then // обычное число
+    if value >= 0 then // РѕР±С‹С‡РЅРѕРµ С‡РёСЃР»Рѕ
     begin
       if prevname <> '' then
       begin
@@ -1544,7 +1544,7 @@ begin
       end;
     end
     else
-    if (Length(FList[i].Key) > 0) and // число в скобках
+    if (Length(FList[i].Key) > 0) and // С‡РёСЃР»Рѕ РІ СЃРєРѕР±РєР°С…
        (FList[i].Key[1] = '(') and
        (
          (FList[i].Key[Length(FList[i].Key)] = ')') or
@@ -1568,13 +1568,13 @@ begin
     begin
       p1 := pos('(', String(FList[i].Key));
       p2 := pos(')', String(FList[i].Key));
-      if (p1 > 0) and (p2 > 0) then // текст и за ним число в скобках
+      if (p1 > 0) and (p2 > 0) then // С‚РµРєСЃС‚ Рё Р·Р° РЅРёРј С‡РёСЃР»Рѕ РІ СЃРєРѕР±РєР°С…
       begin
         str := copy(FList[i].Key, p1 + 1, p2 - p1 - 1);
         value := StrToIntDef(String(str), -1);
 
         if prevname <> '' then
-          exit(false) // нарушена структура - после строки идет строка с числом
+          exit(false) // РЅР°СЂСѓС€РµРЅР° СЃС‚СЂСѓРєС‚СѓСЂР° - РїРѕСЃР»Рµ СЃС‚СЂРѕРєРё РёРґРµС‚ СЃС‚СЂРѕРєР° СЃ С‡РёСЃР»РѕРј
         else
         begin
           str := copy(FList[i].Key, 0, p1 - 1);
@@ -1582,18 +1582,18 @@ begin
         end;
       end
       else
-      begin // просто текст
-        if prevname = '' then // сохраняем предыдущее значение
+      begin // РїСЂРѕСЃС‚Рѕ С‚РµРєСЃС‚
+        if prevname = '' then // СЃРѕС…СЂР°РЅСЏРµРј РїСЂРµРґС‹РґСѓС‰РµРµ Р·РЅР°С‡РµРЅРёРµ
           prevname := String(FList[i].Key)
         else
-          exit(false); // нарушена структура - две строки подряд
+          exit(false); // РЅР°СЂСѓС€РµРЅР° СЃС‚СЂСѓРєС‚СѓСЂР° - РґРІРµ СЃС‚СЂРѕРєРё РїРѕРґСЂСЏРґ
       end;
     end;
 
     inc(i);
   end;
 
-  // нарушена структура - заканчивается текстом без числа
+  // РЅР°СЂСѓС€РµРЅР° СЃС‚СЂСѓРєС‚СѓСЂР° - Р·Р°РєР°РЅС‡РёРІР°РµС‚СЃСЏ С‚РµРєСЃС‚РѕРј Р±РµР· С‡РёСЃР»Р°
   result := prevname = '';
 end;
 
@@ -1603,8 +1603,8 @@ var
   i: NativeInt;
   str: RawByteString;
 begin
-  // вытаскивание перечислений
-  // leftBracerPosition, rightBracerPosition - должны указывать на обрамление { }
+  // РІС‹С‚Р°СЃРєРёРІР°РЅРёРµ РїРµСЂРµС‡РёСЃР»РµРЅРёР№
+  // leftBracerPosition, rightBracerPosition - РґРѕР»Р¶РЅС‹ СѓРєР°Р·С‹РІР°С‚СЊ РЅР° РѕР±СЂР°РјР»РµРЅРёРµ { }
 
   if (leftBracerPosition < 0) or
      (rightBracerPosition < 0) or
@@ -1645,9 +1645,9 @@ begin
       exit;
 
     p := findItem('FROM', ';');
-    if p = -1 then // нет слова from - ссылки на другие модули
+    if p = -1 then // РЅРµС‚ СЃР»РѕРІР° from - СЃСЃС‹Р»РєРё РЅР° РґСЂСѓРіРёРµ РјРѕРґСѓР»Рё
       exit(false);
-    if p + 1 >= FList.Count then // после слова from нет ничего
+    if p + 1 >= FList.Count then // РїРѕСЃР»Рµ СЃР»РѕРІР° from РЅРµС‚ РЅРёС‡РµРіРѕ
       exit(false);
     modulename := FList[p + 1].Key;
 
@@ -1673,7 +1673,7 @@ function TRMIBLexer.getMacro: Boolean;
 var
   p: NativeInt;
 begin
-  // макросы пропускаем нах
+  // РјР°РєСЂРѕСЃС‹ РїСЂРѕРїСѓСЃРєР°РµРј РЅР°С…
   result := false;
 
   if (FPosition < 0) or (FPosition >= FList.Count) then
@@ -1684,7 +1684,7 @@ begin
 
 //  name := FList[FPosition - 1].Key;
   p := findItem('END', '');
-  if p = -1 then // некорректная структура
+  if p = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit;
   FPosition := p + 1;
 
@@ -1705,17 +1705,17 @@ begin
 
   name := FList[FPosition - 1].Key;
   p := findItem('::=', '');
-  if p = -1 then // некорректная структура
+  if p = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit(false);
   FPosition := p + 1;
 
   leftBracer := findItem('{', '}');
-  if leftBracer = -1 then // некорректная структура
+  if leftBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit(false);
   FPosition := leftBracer + 1;
 
   rightBracer := findItem('}', '');
-  if rightBracer = -1 then // некорректная структура
+  if rightBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit(false);
   FPosition := rightBracer + 1;
 
@@ -1740,17 +1740,17 @@ begin
 
   name := FList[FPosition - 1].Key;
   p := findItem('::=', '');
-  if p = -1 then // некорректная структура
+  if p = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit(false);
   FPosition := p + 1;
 
   leftBracer := findItem('{', '}');
-  if leftBracer = -1 then // некорректная структура
+  if leftBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit(false);
   FPosition := leftBracer + 1;
 
   rightBracer := findItem('}', '');
-  if rightBracer = -1 then // некорректная структура
+  if rightBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit(false);
   FPosition := rightBracer + 1;
 
@@ -1786,7 +1786,7 @@ begin
     obj.description := FList[p + 1].Key;
 
   p := findItem('NOTIFICATIONS', '::=');
-  if p = -1 then // некорректная структура
+  if p = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
   begin
     FreeAndNil(obj);
     exit;
@@ -1795,7 +1795,7 @@ begin
   FPosition := p + 1;
 
   leftBracer := findItem('{', '}');
-  if leftBracer = -1 then // некорректная структура
+  if leftBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
   begin
     FreeAndNil(obj);
     exit;
@@ -1804,7 +1804,7 @@ begin
   FPosition := leftBracer + 1;
 
   rightBracer := findItem('}', '');
-  if rightBracer = -1 then // некорректная структура
+  if rightBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
   begin
     FreeAndNil(obj);
     exit;
@@ -1824,7 +1824,7 @@ begin
   FPosition := p + 1;
 
   leftBracer := findItem('{', '}');
-  if leftBracer = -1 then // некорректная структура
+  if leftBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
   begin
     FreeAndNil(obj);
     exit;
@@ -1832,7 +1832,7 @@ begin
   FPosition := leftBracer + 1;
 
   rightBracer := findItem('}', '');
-  if rightBracer = -1 then // некорректная структура
+  if rightBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
   begin
     FreeAndNil(obj);
     exit;
@@ -1877,7 +1877,7 @@ begin
     obj.treference := FList[p + 1].Key;
 
   p := findItem('OBJECTS', '::=');
-  if p = -1 then // некорректная структура
+  if p = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
   begin
     FreeAndNil(obj);
     exit;
@@ -1886,7 +1886,7 @@ begin
   FPosition := p + 1;
 
   leftBracer := findItem('{', '}');
-  if leftBracer = -1 then // некорректная структура
+  if leftBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
   begin
     FreeAndNil(obj);
     exit;
@@ -1895,7 +1895,7 @@ begin
   FPosition := leftBracer + 1;
 
   rightBracer := findItem('}', '');
-  if rightBracer = -1 then // некорректная структура
+  if rightBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
   begin
     FreeAndNil(obj);
     exit;
@@ -1915,7 +1915,7 @@ begin
   FPosition := p + 1;
 
   leftBracer := findItem('{', '}');
-  if leftBracer = -1 then // некорректная структура
+  if leftBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
   begin
     FreeAndNil(obj);
     exit;
@@ -1923,7 +1923,7 @@ begin
   FPosition := leftBracer + 1;
 
   rightBracer := findItem('}', '');
-  if rightBracer = -1 then // некорректная структура
+  if rightBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
   begin
     FreeAndNil(obj);
     exit;
@@ -1964,7 +1964,7 @@ begin
     obj.description := FList[p + 1].Key;
 
   p := findItem('OBJECTS', '::=');
-  if p = -1 then // некорректная структура
+  if p = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
   begin
     FreeAndNil(obj);
     exit;
@@ -1973,7 +1973,7 @@ begin
   FPosition := p + 1;
 
   leftBracer := findItem('{', '}');
-  if leftBracer = -1 then // некорректная структура
+  if leftBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
   begin
     FreeAndNil(obj);
     exit;
@@ -1982,7 +1982,7 @@ begin
   FPosition := leftBracer + 1;
 
   rightBracer := findItem('}', '');
-  if rightBracer = -1 then // некорректная структура
+  if rightBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
   begin
     FreeAndNil(obj);
     exit;
@@ -2002,7 +2002,7 @@ begin
   FPosition := p + 1;
 
   leftBracer := findItem('{', '}');
-  if leftBracer = -1 then // некорректная структура
+  if leftBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
   begin
     FreeAndNil(obj);
     exit;
@@ -2010,7 +2010,7 @@ begin
   FPosition := leftBracer + 1;
 
   rightBracer := findItem('}', '');
-  if rightBracer = -1 then // некорректная структура
+  if rightBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
   begin
     FreeAndNil(obj);
     exit;
@@ -2040,17 +2040,17 @@ begin
 
   name := FList[FPosition - 1].Key;
   p := findItem('::=', '');
-  if p = -1 then // некорректная структура
+  if p = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit(false);
   FPosition := p + 1;
 
   leftBracer := findItem('{', '}');
-  if leftBracer = -1 then // некорректная структура
+  if leftBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit(false);
   FPosition := leftBracer + 1;
 
   rightBracer := findItem('}', '');
-  if rightBracer = -1 then // некорректная структура
+  if rightBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit(false);
   FPosition := rightBracer + 1;
 
@@ -2075,17 +2075,17 @@ begin
 
   name := FList[FPosition - 1].Key;
   p := findItem('::=', '');
-  if p = -1 then // некорректная структура
+  if p = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit(false);
   FPosition := p + 1;
 
   leftBracer := findItem('{', '}');
-  if leftBracer = -1 then // некорректная структура
+  if leftBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit(false);
   FPosition := leftBracer + 1;
 
   rightBracer := findItem('}', '');
-  if rightBracer = -1 then // некорректная структура
+  if rightBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit(false);
   FPosition := rightBracer + 1;
 
@@ -2115,9 +2115,9 @@ begin
 
   inc(FPosition);
 
-  // SYNTAX - единственный необходимый параметр
+  // SYNTAX - РµРґРёРЅСЃС‚РІРµРЅРЅС‹Р№ РЅРµРѕР±С…РѕРґРёРјС‹Р№ РїР°СЂР°РјРµС‚СЂ
   p := findItem('SYNTAX', '::=');
-  if p = -1 then // некорректная структура - нет типа
+  if p = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР° - РЅРµС‚ С‚РёРїР°
     exit;
 
   if (p + 1 >= FList.Count) then
@@ -2166,7 +2166,7 @@ begin
 
   p := findItem('INDEX', '::=');
   if (p >= 0) and (p + 1 < FList.Count) then
-  begin // INDEX - это простое перечисление
+  begin // INDEX - СЌС‚Рѕ РїСЂРѕСЃС‚РѕРµ РїРµСЂРµС‡РёСЃР»РµРЅРёРµ
     if FList[p + 1].Value = ltLeftBracer then
     begin
       FPosition := p + 1;
@@ -2188,7 +2188,7 @@ begin
   FPosition := p + 1;
 
   leftBracer := findItem('{', '}');
-  if leftBracer = -1 then // некорректная структура
+  if leftBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
   begin
     FreeAndNil(obj);
     exit;
@@ -2196,7 +2196,7 @@ begin
   FPosition := leftBracer + 1;
 
   rightBracer := findItem('}', '');
-  if rightBracer = -1 then // некорректная структура
+  if rightBracer = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
   begin
     FreeAndNil(obj);
     exit;
@@ -2261,9 +2261,9 @@ begin
 
   inc(FPosition, 2);
 
-  // SYNTAX - единственный необходимый параметр
+  // SYNTAX - РµРґРёРЅСЃС‚РІРµРЅРЅС‹Р№ РЅРµРѕР±С…РѕРґРёРјС‹Р№ РїР°СЂР°РјРµС‚СЂ
   p := findItem('SYNTAX', '::=');
-  if p = -1 then // некорректная структура
+  if p = -1 then // РЅРµРєРѕСЂСЂРµРєС‚РЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°
     exit;
 
   if (p + 1 >= FList.Count) then
@@ -2284,11 +2284,11 @@ begin
   else
     obj.syntax := FList[p + 1].Key;
 
-  // проверка на перечисляемый тип INTEGER { false(0), true(1) }
+  // РїСЂРѕРІРµСЂРєР° РЅР° РїРµСЂРµС‡РёСЃР»СЏРµРјС‹Р№ С‚РёРї INTEGER { false(0), true(1) }
   if (FList[p + 1].Key = 'INTEGER') and
      (FList[p + 2].Value = ltLeftBracer) then
   begin
-    // разбираем перечисление
+    // СЂР°Р·Р±РёСЂР°РµРј РїРµСЂРµС‡РёСЃР»РµРЅРёРµ
     //p1 := p + 2;
     p2 := findItem('}', '::=');
     if p2 >= 0 then
@@ -2479,21 +2479,21 @@ begin
   FMIBFile := MIBFile;
   FPosition := 0;
 
-  // поиск начала модуля mib
+  // РїРѕРёСЃРє РЅР°С‡Р°Р»Р° РјРѕРґСѓР»СЏ mib
   FPosition := findBeginMIB;
   if FPosition < 0 then
     exit;
   MIBFile.Name := FList[FPosition - 1].Key;
   inc(FPosition, 3);
 
-  // обход токенов модуля
+  // РѕР±С…РѕРґ С‚РѕРєРµРЅРѕРІ РјРѕРґСѓР»СЏ
   while FPosition < FList.Count do
   begin
-    // конец модуля
+    // РєРѕРЅРµС† РјРѕРґСѓР»СЏ
     if isEndMIB then
       break;
 
-    // блок импорта
+    // Р±Р»РѕРє РёРјРїРѕСЂС‚Р°
     if isImports then
     begin
       inc(FPosition);
@@ -2501,11 +2501,11 @@ begin
       inc(FPosition);
     end;
 
-    // блок импорта
+    // Р±Р»РѕРє РёРјРїРѕСЂС‚Р°
     if isModuleIdentity then
       getModuleIdentity;
 
-    // блоки адресов
+    // Р±Р»РѕРєРё Р°РґСЂРµСЃРѕРІ
     if isObjectIdentifier then
       getObjectIdentifier;
 

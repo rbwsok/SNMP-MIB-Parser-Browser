@@ -1,12 +1,12 @@
-unit DUnitX.RUtils;
+п»їunit DUnitX.RUtils;
 
 interface
 
 uses Winapi.Windows, System.SysUtils, System.SyncObjs, System.StrUtils, System.Classes, DUnitX.TestFramework;
 
 type
-  // небольшая надстройка над DUnitX
-  // счетчик Assert
+  // РЅРµР±РѕР»СЊС€Р°СЏ РЅР°РґСЃС‚СЂРѕР№РєР° РЅР°Рґ DUnitX
+  // СЃС‡РµС‚С‡РёРє Assert
   TRTest = class
   private
     class var FLogCriticalSection: TCriticalSection;
