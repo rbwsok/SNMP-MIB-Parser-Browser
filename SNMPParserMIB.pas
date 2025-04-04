@@ -317,7 +317,7 @@ type
     function GetAddressObjects(list: TList<TObjectList<TRAddressObject>>): Boolean;
 
     // удаление распарсенного файла по индексу
-    function Remove(index: NativeInt): Boolean;
+    function Remove(const address: RawByteString): Boolean;
   end;
 
 implementation
@@ -540,14 +540,21 @@ begin
   end;
 end;
 
-function TRMIBParser.Remove(index: NativeInt): Boolean;
+function TRMIBParser.Remove(const address: RawByteString): Boolean;
+var
+  mib: TRMIBFile;
 begin
   result := false;
 
-  if (index < 0) or (index >= FMIBFiles.Count) then
-    exit;
-
-  FMIBFiles.Delete(index);
+  for mib in FMIBFiles do
+  begin
+    if (mib.AddressObjects.Count > 0) and
+       (mib.AddressObjects[0].name = address) then
+    begin
+      FMIBFiles.Remove(mib);
+      break;
+    end;
+  end;
 
   result := true;
 end;
